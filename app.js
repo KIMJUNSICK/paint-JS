@@ -4,10 +4,13 @@ const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 
+const INITIAL_DEFAULT = "#2c2c2c";
+
 canvas.width = 700;
 canvas.height = 700;
 
-ctx.strokeStyle = "#2c2c2c";
+ctx.strokeStyle = INITIAL_DEFAULT;
+ctx.strokeStyle = INITIAL_DEFAULT;
 ctx.lineWidth = 2.5;
 
 let painting = false;
@@ -33,9 +36,16 @@ function onMouseMove(event) {
   }
 }
 
+function handleFill() {
+  if (filling) {
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
 function handleColorClick(event) {
   const color = event.target.style.backgroundColor;
   ctx.strokeStyle = color;
+  ctx.fillStyle = color;
 }
 
 function handleRangeBar(event) {
@@ -58,6 +68,7 @@ if (canvas) {
   canvas.addEventListener("mousedown", startPainting);
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
+  canvas.addEventListener("click", handleFill);
 }
 
 Array.from(colors).forEach(apple =>
